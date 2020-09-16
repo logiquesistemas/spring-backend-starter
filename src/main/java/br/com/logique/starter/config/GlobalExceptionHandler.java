@@ -32,7 +32,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     @ExceptionHandler(value = {AccessDeniedException.class})
     public ResponseEntity handleAccessDeniedException(RuntimeException ex, WebRequest request) {
-        return handleExceptionInternal(ex, message.get("erro.acesso-negado"), new HttpHeaders(), HttpStatus.FORBIDDEN, request);
+        return handleExceptionInternal(ex, message.get("erro.acesso-negado"), new HttpHeaders(), HttpStatus.UNAUTHORIZED, request);
     }
 
     @ExceptionHandler(value = {ValidationException.class})
@@ -52,9 +52,7 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
                                                                   HttpStatus status, WebRequest request) {
 
         ValidationException.Builder builder = new ValidationException.Builder();
-
         ex.getBindingResult().getFieldErrors().forEach(e -> builder.addValidationError(e.getField(), e.getDefaultMessage()));
-
         return new ResponseEntity<>(createValidationBody(status, builder.build()), headers, status);
     }
 

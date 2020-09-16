@@ -12,7 +12,8 @@
 
 	<groupId>br.com.logique</groupId>
 	<artifactId>starter-api</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>${buildVersion}</version>
+	<packaging>war</packaging>
 
 	<name>starter-api</name>
 	<description>Projeto base para criação de APIs com SpringBoot</description>
@@ -20,6 +21,7 @@
 	<properties>
 		<java.version>1.8</java.version>
 		<jarFileName>starter-api</jarFileName>
+		<buildVersion>0.0.1-SNAPSHOT</buildVersion>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 		<sonar.coverage.exclusions>
@@ -57,6 +59,11 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-tomcat</artifactId>
+			<scope>provided</scope>
 		</dependency>
 
 		<!-- DEV TOOLS -->
@@ -186,6 +193,11 @@
 				<configuration>
 					<executable>true</executable>
 				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
 			</plugin>
 
 			<plugin>

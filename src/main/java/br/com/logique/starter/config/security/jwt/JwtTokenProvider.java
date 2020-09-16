@@ -111,6 +111,15 @@ public class JwtTokenProvider {
         return TokenStatus.INVALIDO;
     }
 
+    public int obterTempoExpiracao(String origemHeader) {
+
+        Optional<Origem> origem = Origem.getEnum(origemHeader);
+
+        return origem.map(Origem::getChaveTempoExpiracao)
+                .map(key -> environment.getProperty(key))
+                .map(Integer::parseInt).orElse(intervaloExpiracaoDefault);
+    }
+
     TokenStatus identificarStatusPorTempo(Date dataCriacaoToken, Date dataExpiracaoToken, int intervaloRefresh) {
 
         Long milissegundosAtual = relogioSistema.dateAtual().getTime();
@@ -124,15 +133,6 @@ public class JwtTokenProvider {
         } else {
             return TokenStatus.VALIDO;
         }
-    }
-
-    public int obterTempoExpiracao(String origemHeader) {
-
-        Optional<Origem> origem = Origem.getEnum(origemHeader);
-
-        return origem.map(Origem::getChaveTempoExpiracao)
-                .map(key -> environment.getProperty(key))
-                .map(Integer::parseInt).orElse(intervaloExpiracaoDefault);
     }
 
     private Date gerarNovaDataExpiracao(int tempoExpiracaoMinutos) {

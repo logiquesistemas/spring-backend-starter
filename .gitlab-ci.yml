@@ -32,6 +32,10 @@ test:
   script:
     - mvn $MAVEN_CLI_OPTS test
   artifacts:
+    reports:
+      junit:
+        - target/surefire-reports/TEST-*.xml
+        - target/failsafe-reports/TEST-*.xml
     paths:
       - target/jacoco.exec
       - target/surefire-reports/*
@@ -40,15 +44,26 @@ test:
 package:
   stage: package
   script:
-    - mvn $MAVEN_CLI_OPTS package -DskipTests -DjarFileName=aprender-api
+    - mvn $MAVEN_CLI_OPTS package -DskipTests -DjarFileName=starter-api
   only:
-    - tags
     - master
     - develop
   artifacts:
     paths:
-      - target/starter-api.jar
+      - target/*.jar
+      - target/*.war
 
+package_tag:
+  stage: package
+  script:
+    - mvn versions:set -DbuildVersion=$CI_COMMIT_TAG
+    - mvn $MAVEN_CLI_OPTS package -DskipTests -DjarFileName=starter-api-$CI_COMMIT_TAG
+  only:
+    - tags
+  artifacts:
+    paths:
+      - target/*.jar
+      - target/*.war
 
 #deploy_homol:
 #  stage: deploy

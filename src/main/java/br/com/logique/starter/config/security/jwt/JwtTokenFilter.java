@@ -50,12 +50,12 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             switch (tokenStatus) {
                 case VALIDO:
                     setAuthentication(tokenAtual, request);
-                    response.setHeader(AUTHORIZATION_HEADER, tokenAtual);
+                    response.setHeader(AUTHORIZATION_HEADER, "Bearer " + tokenAtual);
                     break;
                 case REFRESH:
                     Authentication auth = setAuthentication(tokenAtual, request);
                     String novoToken = jwtTokenProvider.createToken(auth, obterHeaderOrigem(request));
-                    response.setHeader(AUTHORIZATION_HEADER, novoToken);
+                    response.setHeader(AUTHORIZATION_HEADER, "Bearer " + novoToken);
                     break;
                 case EXPIRADO:
                 case INVALIDO:

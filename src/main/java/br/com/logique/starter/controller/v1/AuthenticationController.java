@@ -8,7 +8,6 @@ import br.com.logique.starter.model.dto.usuario.RespostaLogin;
 import br.com.logique.starter.service.AuthenticationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -31,13 +30,8 @@ public class AuthenticationController {
     @PostMapping("/login")
     public ResponseEntity login(@RequestHeader("X-Origem") String origem, @RequestBody @Valid Credenciais credenciais) {
         try {
-
             RespostaLogin resposta = this.authenticationService.login(credenciais.getLogin(), credenciais.getSenha(), origem);
-
-            HttpHeaders httpHeaders = new HttpHeaders();
-            httpHeaders.add("Authorization", "Bearer " + resposta.getToken());
-
-            return new ResponseEntity<>(resposta, httpHeaders, HttpStatus.OK);
+            return new ResponseEntity<>(resposta, HttpStatus.OK);
         } catch (Exception e) {
             log.error("Erro ao fazer login", e);
             throw new ResponseStatusException(HttpStatus.FORBIDDEN, "Credenciais inválidas.");

@@ -1,10 +1,12 @@
 package br.com.logique.starter.config.security;
 
+import br.com.logique.starter.service.MessageService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Service;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -13,11 +15,15 @@ import java.io.IOException;
 @Service
 public class Http401AuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    @Autowired
+    private MessageService message;
+
     @Override
     public void commence(HttpServletRequest httpServletRequest,
                          HttpServletResponse httpServletResponse,
-                         org.springframework.security.core.AuthenticationException e) throws IOException, ServletException {
+                         AuthenticationException e) throws IOException {
+
         log.error("Usuário não autorizado. Erro - {}", e.getMessage());
-        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED,"Usuário não autorizado");
+        httpServletResponse.sendError(HttpServletResponse.SC_UNAUTHORIZED, message.get("erro.acesso.negado"));
     }
 }
