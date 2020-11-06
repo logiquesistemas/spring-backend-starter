@@ -18,7 +18,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
-@SpringBootApplication
+@SpringBootApplication(exclude = { SecurityAutoConfiguration.class })
 @ComponentScan(basePackages = {"br.com.logique.starter.*"})
 @EnableJpaRepositories(basePackages = {"br.com.logique.starter.repository"})
 public class Application extends SpringBootServletInitializer {
