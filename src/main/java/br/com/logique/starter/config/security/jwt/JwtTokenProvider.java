@@ -122,6 +122,10 @@ public class JwtTokenProvider {
 
     TokenStatus identificarStatusPorTempo(Date dataCriacaoToken, Date dataExpiracaoToken, int intervaloRefresh) {
 
+        if (dataCriacaoToken == null || dataExpiracaoToken == null) {
+            return TokenStatus.INVALIDO;
+        }
+        
         Long milissegundosAtual = relogioSistema.dateAtual().getTime();
         Long milissegundosRefresh = obterDataRefresh(dataCriacaoToken, intervaloRefresh).getTime();
         Long milissegundosExpiracao = dataExpiracaoToken.getTime();
