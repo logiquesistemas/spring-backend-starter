@@ -16,7 +16,7 @@
 	<packaging>war</packaging>
 
 	<name>starter-api</name>
-	<description>Projeto base para criação de APIs com SpringBoot</description>
+	<description>Teste para aula de Git</description>
 
 	<properties>
 		<java.version>1.8</java.version>
